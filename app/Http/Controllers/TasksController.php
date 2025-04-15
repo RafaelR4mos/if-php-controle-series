@@ -29,10 +29,15 @@ class TasksController extends Controller
         $userId = Auth::id();
         $tasks = Task::where('user_id', $userId)
             ->orderBy('is_completed')
+            ->orderBy('priority', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        return view('tasks.index')->with('tasks', $tasks);
+        $totalCompleted = $tasks->where('is_completed', true)->count();
+
+        return view('tasks.index')
+            ->with('tasks', $tasks)
+            ->with('totalCompleted', $totalCompleted);
     }
 
     public function create()

@@ -24,8 +24,15 @@
     href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css"
   />
 
+  <link rel="stylesheet" href="{{ asset('styles/tasks.css') }}">
+  <link rel="stylesheet" href="{{ asset('styles/global.css') }}">
+
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+
+
+
 </head>
 <body>
     <div id="app">
