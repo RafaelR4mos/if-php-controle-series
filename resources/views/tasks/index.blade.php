@@ -23,11 +23,11 @@
             <div class="tasks-info-container py-3 mb-2 bg-light d-flex justify-content-between align-items-center">
                 <h5 class="mb-0 fw-semibold text-primary">
                     Total de Tarefas:
-                    <span class="badge bg-primary">{{ count($tasks) }}</span>
+                    <span class="badge bg-primary">{{ $totalTasks }}</span>
                 </h5>
                 <h5 class="mb-0 fw-semibold text-success">
                     Concluídas:
-                    <span class="badge bg-success">{{ $totalCompleted }}/{{ count($tasks) }}</span>
+                    <span class="badge bg-success">{{ $totalCompleted }}/{{ $totalTasks }}</span>
                 </h5>
             </div>
 
@@ -69,7 +69,7 @@
                                         {{ $task->category }}
                                     </span>
                                 @endif
-                                <div>
+                                <div class="priority-container">
                                     @if ($task->priority === 1)
                                         <span class="badge rounded-pill text-bg-secondary">
                                             Baixa
@@ -83,12 +83,23 @@
                                             Alta
                                         </span>
                                     @endif
+                                    @if (\Carbon\Carbon::parse($task->due_date)->isPast() && !$task->is_completed)
+                                        <span class="badge rounded-pill text-bg-danger">
+                                            ATRASADA
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class="date-container">
-                                    {{ \Carbon\Carbon::parse($task->due_date)->format('d/m/Y') }}</div>
+                                    {{ \Carbon\Carbon::parse($task->due_date)->format('d/m/Y') }}
+                                </div>
                             </div>
                         </div>
                         <div class="button-container">
+                            <a href="{{ route('tasks.show', $task) }}" class="btn btn-outline-info btn-sm btn-show"
+                                title="Ver Detalhes">
+                                <i class="ph ph-eye" style="font-size: 1.25rem;"></i>
+                            </a>
+
                             <form action="{{ route('task.destroy', $task->id_task) }}" method="post">
                                 @csrf
                                 @method('DELETE')
@@ -96,9 +107,12 @@
                                     {{ $task->is_completed ? 'disabled' : '' }}><i class="ph ph-trash"
                                         style="font-size: 1.25rem"></i></button>
                             </form>
-                            <button type="submit"
-                                class="btn btn-outline-warning btn-sm {{ $task->is_completed ? 'disabled' : '' }}"
-                                title="editar tarefa"><i class="ph ph-pencil" style="font-size: 1.25rem;"></i></button>
+                            <form action="{{ route('tasks.edit', $task) }}" method="GET">
+                                <button class="btn btn-outline-warning btn-sm" {{ $task->is_completed ? 'disabled' : '' }}
+                                    title="Editar tarefa">
+                                    <i class="ph ph-pencil" style="font-size: 1.25rem;"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

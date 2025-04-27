@@ -56,8 +56,17 @@
 }
 
 .task-item > .first-row .first-col .category-container .date-container {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
     border-left: 1px solid #bfbfbf;
     padding-left: 0.4rem;
+}
+
+.priority-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .task-item > .first-row .first-col .category-container {
@@ -148,4 +157,17 @@
 
 .custom-checkbox .label-text {
     color: #333;
+}
+
+.btn-show {
+    width: 38px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dt-cricao-container {
+    border-right: 1px solid #333;
 }

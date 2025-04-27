@@ -33,10 +33,15 @@ class TasksController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        $totalCompleted = $tasks->where('is_completed', true)->count();
+        $totalTasks = Task::where('user_id', $userId)->count();
+
+        $totalCompleted = Task::where('user_id', $userId)
+            ->where('is_completed', true)
+            ->count();
 
         return view('tasks.index')
             ->with('tasks', $tasks)
+            ->with('totalTasks', $totalTasks)
             ->with('totalCompleted', $totalCompleted);
     }
 
@@ -45,14 +50,28 @@ class TasksController extends Controller
         return view('tasks.create');
     }
 
+    public function edit(Task $task)
+    {
+        return view('tasks.edit', compact('task'));
+    }
+
+    public function show(Task $task)
+    {
+        return view('tasks.show', compact('task'));
+    }
+
     public function store(StoreTaskRequest $request)
     {
         $data = $request->validated();
         $data['user_id'] = Auth::id();
 
+
         if ($request->hasFile('arquivo')) {
             $data['arquivo'] = file_get_contents($request->file('arquivo')->getRealPath());
         }
+
+        //Faz o tratamento para não estourar exceção no banco
+        $data['category'] = $data['category'] ?? 'Outro';
 
         Task::create($data);
 
@@ -77,5 +96,20 @@ class TasksController extends Controller
 
         return redirect()->route('tasks.index')
             ->with('mensagem.sucesso', "Série '{$task->name}' removida com sucesso");
+    }
+
+    public function update(StoreTaskRequest $request, Task $task)
+    {
+        $data = $request->validated();
+
+        if ($request->hasFile('arquivo')) {
+            $data['arquivo'] = file_get_contents($request->file('arquivo')->getRealPath());
+        }
+
+        $data['category'] = $data['category'] ?? 'Outro';
+
+        $task->update($data);
+
+        return redirect()->route('tasks.index')->with('success', 'Tarefa atualizada com sucesso!');
     }
 }
