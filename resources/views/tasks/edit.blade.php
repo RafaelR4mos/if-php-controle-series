@@ -33,13 +33,13 @@
 
             <div class="mb-3">
                 <label for="title" class="form-label">Título</label>
-                <input type="text" name="title" id="title" class="form-control"
+                <input type="text" name="title" id="title" placeholder="Insira o título aqui" class="form-control"
                     value="{{ old('title', $task->title) }}" required>
             </div>
 
             <div class="mb-3">
                 <label for="description" class="form-label">Descrição</label>
-                <textarea name="description" id="description" class="form-control" rows="3">{{ old('description', $task->description) }}</textarea>
+                <textarea name="description" placeholder="Insira a descrição aqui" id="description" class="form-control" rows="3">{{ old('description', $task->description) }}</textarea>
             </div>
 
             <div class="mb-3">
@@ -69,10 +69,18 @@
                     value="{{ old('due_date', \Carbon\Carbon::parse($task->due_date)->format('Y-m-d')) }}" required>
             </div>
 
-            <div class="mb-3">
-                <label for="arquivo" class="form-label">Arquivo (opcional)</label>
-                <input type="file" name="arquivo" id="arquivo" class="form-control">
-            </div>
+            @if ($task->arquivo)
+                <div class="mb-3">
+                    <strong>Arquivo Anexado:</strong><br>
+                    <img src="data:image/png;base64,{{ base64_encode($task->arquivo) }}" alt="Arquivo Anexado"
+                        class="img-fluid rounded mt-2" style="max-height: 400px;">
+                </div>
+            @else
+                <div class="mb-3">
+                    <label for="arquivo" class="form-label">Arquivo (opcional)</label>
+                    <input type="file" name="arquivo" id="arquivo" class="form-control">
+                </div>
+            @endif
 
             <button type="submit" class="btn btn-primary">Atualizar Tarefa</button>
             <a href="{{ route('tasks.index') }}" class="btn btn-secondary">Cancelar</a>

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTaskRequest;
 use App\Models\Task;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TasksController extends Controller
@@ -95,7 +94,7 @@ class TasksController extends Controller
         $task->delete();
 
         return redirect()->route('tasks.index')
-            ->with('mensagem.sucesso', "Série '{$task->name}' removida com sucesso");
+            ->with('success', "Tarefa '{$task->title}' removida com sucesso");
     }
 
     public function update(StoreTaskRequest $request, Task $task)

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Task>
@@ -16,7 +17,7 @@ class TaskFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(3),
-            'description' => $this->faker->paragraph(),
+            'description' => Str::limit($this->faker->paragraph(5), 100),
             'category' => $this->faker->randomElement(['Trabalho', 'Pessoal', 'Estudo']),
             'priority' => $this->faker->numberBetween(1, 3),
             'due_date' => $this->faker->dateTimeBetween('now', '+1 month')->format('Y-m-d'),

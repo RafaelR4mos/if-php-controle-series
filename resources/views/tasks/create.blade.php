@@ -33,13 +33,13 @@
 
             <div class="mb-3">
                 <label for="title" class="form-label">Título</label>
-                <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}"
-                    required>
+                <input type="text" name="title" id="title" class="form-control" placeholder="Insira o título aqui"
+                    value="{{ old('title') }}" required>
             </div>
 
             <div class="mb-3">
-                <label for="description" class="form-label">Descrição</label>
-                <textarea name="description" id="description" class="form-control" rows="3">{{ old('description') }}</textarea>
+                <label for="description" class="form-label">Descrição (opcional)</label>
+                <textarea name="description" placeholder="Insira a descrição aqui" id="description" class="form-control" rows="3">{{ old('description') }}</textarea>
             </div>
 
             <div class="mb-3">

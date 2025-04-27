@@ -13,10 +13,22 @@
         </div>
     </div>
 
+    @if (session('success'))
+        <div class="container mt-2">
+            <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert-success">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    @endif
+
 
     @if ($tasks->isEmpty())
-        <div class="alert alert-info">
-            Nenhuma tarefa cadastrada.
+        <div class="container">
+            <div class="alert alert-info">
+                Nenhuma tarefa cadastrada.
+                <strong>Clique em "Criar tarefa" para criar uma tarefa agora.</strong>
+            </div>
         </div>
     @else
         <div class="container">
